@@ -1,4 +1,6 @@
-﻿namespace HotelBookingAPI.DTOs.RoomTypeDTOs
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace HotelBookingAPI.DTOs.RoomTypeDTOs
 {
     public class CreateRoomTypeDTO
     {

@@ -174,45 +174,40 @@ namespace HotelBookingAPI.Repository
             }
         }
 
-        public async Task<DeleteRoomTypeResponseDTO> DeleteRoomType(int RoomTypeId)
+        public async Task<DeleteRoomTypeResponseDTO> DeleteRoomType(int RoomTypeID)
         {
-            var response = new DeleteRoomTypeResponseDTO();
+            DeleteRoomTypeResponseDTO deleteRoomTypeResponseDTO = new DeleteRoomTypeResponseDTO();
             using var connection = _sqlConnectionFactory.CreateConnection();
-
-            // Hard delete
-            var command = new SqlCommand("spDeleteRoomType", connection){
+            //If you want to Delete the Record Permanentlt, then use spDeleteRoomType Stored Procedure
+            var command = new SqlCommand("spToggleRoomTypeActive", connection)
+            {
                 CommandType = CommandType.StoredProcedure
             };
-            command.Parameters.Add(new SqlParameter("@RoomTypeID", RoomTypeId));
+            command.Parameters.Add(new SqlParameter("@RoomTypeID", RoomTypeID));
             command.Parameters.AddWithValue("@IsActive", false);
-
-            var statusCode = new SqlParameter("@StatusCode", SqlDbType.Int){
+            var statusCode = new SqlParameter("@StatusCode", SqlDbType.Int)
+            {
                 Direction = ParameterDirection.Output
             };
-
-            var message = new SqlParameter("@Message", SqlDbType.NVarChar, 255){
+            var message = new SqlParameter("@Message", SqlDbType.NVarChar, 255)
+            {
                 Direction = ParameterDirection.Output
             };
-
-            command.Parameters.Add(message);
             command.Parameters.Add(statusCode);
-
+            command.Parameters.Add(message);
             try
             {
                 await connection.OpenAsync();
                 await command.ExecuteNonQueryAsync();
-
-                response.Message = "Room Type Deleted Successfully";
-                response.IsDeleted = (int)statusCode.Value == 0;
-
-                return response;
+                deleteRoomTypeResponseDTO.Message = "Room Type Deleted Successfully";
+                deleteRoomTypeResponseDTO.IsDeleted = (int)statusCode.Value == 0;
+                return deleteRoomTypeResponseDTO;
             }
             catch (SqlException ex)
             {
-                response.Message = ex.Message;
-                response.IsDeleted = false;
-
-                return response;
+                deleteRoomTypeResponseDTO.Message = ex.Message;
+                deleteRoomTypeResponseDTO.IsDeleted = false;
+                return deleteRoomTypeResponseDTO;
             }
         }
 

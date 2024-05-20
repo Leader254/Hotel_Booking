@@ -18,6 +18,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<RoomTypeRepository>();
+builder.Services.AddScoped<RoomRepository>();
 
 var app = builder.Build();
 

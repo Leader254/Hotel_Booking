@@ -322,9 +322,6 @@ INSERT INTO RefundMethods (MethodName) VALUES
 ('Cash'),
 ('Credit Card'),
 ('Online Transfer'),
-<<<<<<< HEAD
-('Check');
-=======
 ('Check');
 
 
@@ -561,4 +558,3 @@ BEGIN
     END
 END;
 GO
->>>>>>> 582d2de (first commit)
