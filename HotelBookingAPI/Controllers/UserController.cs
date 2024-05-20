@@ -47,6 +47,7 @@ namespace HotelBookingAPI.Controllers
             }
         }
 
+        [HttpPost("AssignRole")]
         public async Task<APIResponse<UserRoleResponseDTO>> AssignRole(UserRoleDTO payload)
         {
             _logger.LogInformation("Request Received for AssignRole: {@UserRoleDTO}", payload);
