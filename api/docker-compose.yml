@@ -1,0 +1,27 @@
+version: '3.8'
+ 
+services:
+  webapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - MSSQL_SA="myStong_Password123#@!S!m@"
+    ports:
+      - "5257:5257"
+    depends_on:
+      - db
+
+ 
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: hoteldb
+    environment:
+      SA_PASSWORD: "myStong_Password123#@!S!m@"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1434:1433"
+
+    volumes:
+        - .data:/var/opt/mssql/data
+        - .log:/var/opt/mssql/log
